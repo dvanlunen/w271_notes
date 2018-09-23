@@ -174,9 +174,9 @@ $(document).ready(function () {
 
 <!-- rnb-text-begin -->
 <div id="wald" class="section level1">
-<h1><span class="header-section-number">1</span> Wald</h1>
+<h1>Wald</h1>
 <div id="general-case" class="section level2">
-<h2><span class="header-section-number">1.1</span> General Case</h2>
+<h2>General Case</h2>
 <p>For any estimated confidence interval, you can use <span class="math display">\[
 WaldCI = \hat{\theta} \pm Z_{1-\alpha/2}V(\hat{\theta})^{1/2}
 \]</span> For example, for estimating <span class="math inline">\(\pi\)</span> from a binomial(n,<span class="math inline">\(pi\)</span>) sample without covariates you might use.</p>
@@ -186,7 +186,7 @@ WaldCI = \hat{\pi} \pm Z_{1-\frac{\alpha}{2}} \sqrt{\frac{\hat{\pi}(1-\hat{\pi})
 \]</span> But this is pretty shitty for small <span class="math inline">\(n\)</span>. So we tend to use wilson for the case above (no covariates and single 2-outcome var) and LR profile CI otherwise.</p>
 </div>
 <div id="wilson-is-better-for-testing-a-single-pi" class="section level2">
-<h2><span class="header-section-number">1.2</span> Wilson is better for testing a single <span class="math inline">\(pi\)</span></h2>
+<h2>Wilson is better for testing a single <span class="math inline">\(pi\)</span></h2>
 <p><span class="math display">\[
 \tilde{\pi} = \frac{w + \frac{1}{2}Z^2_{1-\frac{\alpha}{2}}}{n + Z^2_{1-\frac{\alpha}{2}}} \\
 WilsonCI = \tilde{\pi} \pm \frac{Z_{1-\frac{\alpha}{2}} n^{1/2}}{n + Z^2_{1-\frac{\alpha}{2}}} \sqrt{\hat{\pi}(1-\hat{\pi}) + \frac{Z^2_{1-\frac{\alpha}{2}}}{4n}}
@@ -196,7 +196,7 @@ WilsonCI = \tilde{\pi} \pm \frac{Z_{1-\frac{\alpha}{2}} n^{1/2}}{n + Z^2_{1-\fra
 </div>
 </div>
 <div id="general-case-likelihood-ratio-lr" class="section level1">
-<h1><span class="header-section-number">2</span> General Case Likelihood Ratio (LR)</h1>
+<h1>General Case Likelihood Ratio (LR)</h1>
 <p>The LR is defined as <span class="math display">\[
 \Lambda = \frac{Max \ Likelihood \ Under \ H_0}{Max \ Likelihood \ Under \ H_a \ or \ H_0}
 \]</span></p>
@@ -207,48 +207,58 @@ WilsonCI = \tilde{\pi} \pm \frac{Z_{1-\frac{\alpha}{2}} n^{1/2}}{n + Z^2_{1-\fra
 <p>Where <span class="math inline">\(d\)</span> is how many parameters are set = to a constant in <span class="math inline">\(H_0\)</span></p>
 </div>
 <div id="logistic-regression" class="section level1">
-<h1><span class="header-section-number">3</span> Logistic Regression</h1>
+<h1>Logistic Regression</h1>
 <div id="binary-case" class="section level2">
-<h2><span class="header-section-number">3.1</span> Binary Case</h2>
+<h2>Binary Case</h2>
 <p>When getting confidence levels, just find the confidence interval for the linear combination of <span class="math inline">\(\beta\)</span>s, then plug back into the formula to find the parameter you are trying to find a range for.</p>
 <p>To fit models:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZ2xtKGZvcm11bGEsIGRhdGEsIGZhbWlseT1iaW5vbWlhbChsaW5rPSdsb2dpdCcpKVxuYGBgXG5gYGAifQ== -->
-<p><code>r</code>r glm(formula, data, family=binomial(link=‘logit’))</p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2xtKGZvcm11bGEsIGRhdGEsIGZhbWlseT1iaW5vbWlhbChsaW5rPSdsb2dpdCcpKVxuYGBgIn0= -->
+<pre class="r"><code>glm(formula, data, family=binomial(link='logit'))</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <div id="wald-1" class="section level3">
-<h3><span class="header-section-number">3.1.1</span> Wald</h3>
+<h3>Wald</h3>
 <p><span class="math inline">\(\hat{V(\hat{\beta})} = (X'VX)^{-1}\)</span> Where <span class="math inline">\(X\)</span> is the design matrix and <span class="math inline">\(V=Diag(\hat{\pi_i}(1-\hat{\pi_i}))\)</span></p>
 <p>Variances and covariances from this matrix can be pulled to estimate the standard error of the linear combo of <span class="math inline">\(\beta\)</span> for Wald intervals.</p>
 <div id="r" class="section level4">
-<h4><span class="header-section-number">3.1.1.1</span> R</h4>
+<h4>R</h4>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBXYWxkIHAtdmFsdWVzIG9mIGVhY2ggXFxiZXRhPTAgZ2l2ZW4gYnlcbnN1bW1hcnkobW9kZWwpXG5jb25maW50LmRlZmF1bHQobW9kZWwpICMgYmV0YSBjb25maWRlbmNlIGludGVydmFscyAtPiBzaW1wbGUgT1IgaW50ZXJ2YWxzXG5saW5lYXIuY29tYm8gPC0gcHJlZGljdChtb2RlbCwgZGF0YSwgdHlwZT0nbGluaycsIHNlPVQpXG5saW5lYXIuY29tYm8kZml0ICMgaXMgY29tYm8gaGF0XG5saW5lYXIuY29tYm8kc2UuZml0ICMgdXNlZCBmb3Igd2FsZCBpbnRlcnZhbCBhcm91bmQgY29tYm8gaGF0XG5cblxuYGBgXG5gYGAifQ== -->
-<p><code>r</code>r # Wald p-values of each =0 given by summary(model) confint.default(model) # beta confidence intervals -&gt; simple OR intervals linear.combo &lt;- predict(model, data, type=‘link’, se=T) linear.combo<span class="math inline">\(fit # is combo hat linear.combo\)</span>se.fit # used for wald interval around combo hat</p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBXYWxkIHAtdmFsdWVzIG9mIGVhY2ggXFxiZXRhPTAgZ2l2ZW4gYnlcbnN1bW1hcnkobW9kZWwpXG5jb25maW50LmRlZmF1bHQobW9kZWwpICMgYmV0YSBjb25maWRlbmNlIGludGVydmFscyAtPiBzaW1wbGUgT1IgaW50ZXJ2YWxzXG5saW5lYXIuY29tYm8gPC0gcHJlZGljdChtb2RlbCwgZGF0YSwgdHlwZT0nbGluaycsIHNlPVQpXG5saW5lYXIuY29tYm8kZml0ICMgaXMgY29tYm8gaGF0XG5saW5lYXIuY29tYm8kc2UuZml0ICMgdXNlZCBmb3Igd2FsZCBpbnRlcnZhbCBhcm91bmQgY29tYm8gaGF0XG5cblxuYGBgIn0= -->
+<pre class="r"><code># Wald p-values of each \beta=0 given by
+summary(model)
+confint.default(model) # beta confidence intervals -&gt; simple OR intervals
+linear.combo &lt;- predict(model, data, type='link', se=T)
+linear.combo$fit # is combo hat
+linear.combo$se.fit # used for wald interval around combo hat
+</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
 </div>
 <div id="lr" class="section level3">
-<h3><span class="header-section-number">3.1.2</span> LR</h3>
+<h3>LR</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBUZXN0aW5nXG5hbm92YShIMG1vZGVsLEhhbW9kZWwsdGVzdD0nTFInKVxuQW5vdmEoSGFtb2RlbCkgIyBsZWF2ZSBvbmUgb3V0IG1ldGhvZG9sb2d5XG5jb25maW50KG1vZGVsKSAjIGJldGEgY29uZmlkZW5jZSBpbnRlcnZhbHMgLT4gc2ltcGxlIE9SIGludGVydmFsc1xuIyBJbnRlcnZhbHMgb24gY29tYm9zXG5LIDwtIG1hdHJpeChkYXRhPWMoMSxiZXRhMXZhbCxiZXRhMnZhbCwuLi4sYmV0YWp2YWwpLG5yb3c9MSkgIyBwdXQgaG93IG1hbnkgb2YgZWFjaCBjb2VmZmljaWVudCBpbiBjb21ibyBpbiBlYWNoIG1hdHJpeCByb3dcbmxpbmVhci5jb21ibyA8LSBtY3Byb2ZpbGUobW9kZWwsIENNPUspXG5jb25maW50KGxpbmVhci5jb21ibywgbGV2ZWwgPSAxLWFscGhhKVxuYGBgXG5gYGAifQ== -->
-<p><code>r</code>r # Testing anova(H0model,Hamodel,test=‘LR’) Anova(Hamodel) # leave one out methodology confint(model) # beta confidence intervals -&gt; simple OR intervals # Intervals on combos K &lt;- matrix(data=c(1,beta1val,beta2val,…,betajval),nrow=1) # put how many of each coefficient in combo in each matrix row linear.combo &lt;- mcprofile(model, CM=K) confint(linear.combo, level = 1-alpha)</p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBUZXN0aW5nXG5hbm92YShIMG1vZGVsLEhhbW9kZWwsdGVzdD0nTFInKVxuQW5vdmEoSGFtb2RlbCkgIyBsZWF2ZSBvbmUgb3V0IG1ldGhvZG9sb2d5XG5jb25maW50KG1vZGVsKSAjIGJldGEgY29uZmlkZW5jZSBpbnRlcnZhbHMgLT4gc2ltcGxlIE9SIGludGVydmFsc1xuIyBJbnRlcnZhbHMgb24gY29tYm9zXG5LIDwtIG1hdHJpeChkYXRhPWMoMSxiZXRhMXZhbCxiZXRhMnZhbCwuLi4sYmV0YWp2YWwpLG5yb3c9MSkgIyBwdXQgaG93IG1hbnkgb2YgZWFjaCBjb2VmZmljaWVudCBpbiBjb21ibyBpbiBlYWNoIG1hdHJpeCByb3dcbmxpbmVhci5jb21ibyA8LSBtY3Byb2ZpbGUobW9kZWwsIENNPUspXG5jb25maW50KGxpbmVhci5jb21ibywgbGV2ZWwgPSAxLWFscGhhKVxuYGBgIn0= -->
+<pre class="r"><code># Testing
+anova(H0model,Hamodel,test='LR')
+Anova(Hamodel) # leave one out methodology
+confint(model) # beta confidence intervals -&gt; simple OR intervals
+# Intervals on combos
+K &lt;- matrix(data=c(1,beta1val,beta2val,...,betajval),nrow=1) # put how many of each coefficient in combo in each matrix row
+linear.combo &lt;- mcprofile(model, CM=K)
+confint(linear.combo, level = 1-alpha)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
 <div id="odds-ratios" class="section level3">
-<h3><span class="header-section-number">3.1.3</span> Odds-Ratios</h3>
+<h3>Odds-Ratios</h3>
 <p>Can express as a function of the coefficients for simple cases or function of the coefficients and certain variables for more complex cases.</p>
 <p>If no higher order terms or interactions. If x_r+c$ <span class="math display">\[
 OR=\frac{odds_{w \ x_r=a+c}}{odds_{w \ x_r=a}}=exp(c\beta_r)
@@ -267,28 +277,31 @@ exp(\beta_j-\beta_{j'})
 <p>The best advice for the OR is just to plug in the linear combo <span class="math inline">\(z\)</span> evaluated at the different points and then cancel to find the linear combo inside <span class="math inline">\(exp()\)</span> and then find CI for the linear combo.</p>
 </div>
 <div id="pi" class="section level3">
-<h3><span class="header-section-number">3.1.4</span> <span class="math inline">\(\pi\)</span></h3>
+<h3><span class="math inline">\(\pi\)</span></h3>
 <p>Find the linear combo <span class="math inline">\(z\)</span>, get its CI, and then <span class="math inline">\(\frac{exp(z.CI)}{(1+exp(z.CI))}\)</span></p>
 <p>You can also use</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJlZGljdChtb2RlbCwgbmV3ZGF0YSwgdHlwZT1cInByb2JzXCIpXG5gYGAifQ== -->
+<pre class="r"><code>predict(model, newdata, type=&quot;probs&quot;)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
 </div>
 <div id="multinomial-case" class="section level2">
-<h2><span class="header-section-number">3.2</span> Multinomial Case</h2>
+<h2>Multinomial Case</h2>
 <div id="independence-test-in-itimesj-contigency-table" class="section level3">
-<h3><span class="header-section-number">3.2.1</span> Independence test in <span class="math inline">\(I\timesJ\)</span> contigency table</h3>
+<h3>Independence test in <span class="math inline">\(I\timesJ\)</span> contigency table</h3>
 <p>Test that <span class="math inline">\(\pi_{ij}\neq \pi_i^+\pi_j^+\)</span> for at least one <span class="math inline">\(i,j\)</span>.</p>
 <p><span class="math display">\[
 \sum_{i,j}\frac{(n_{ij}-n_{i+}n_{j+}/n)^2}{n_{i+}n_{j+}/n} \sim \chi^2_{(I-1)(J-1)}
 \]</span> (Observed-Expected)^2/Expected is distributed as Chi squared.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxudGFibGUgPC0geHRhYnMoY291bnQgfiBncm91cCArIG91dGNvbWUpICMgbWFrZSBJIGdyb3VwLCBKIG91dGNvbWUgY29udGluZ2VuY3kgdGFibGVcbmNoaXNxLnRlc3QodGFibGUsY29ycmVjdD1GKSAjZG8gdGVzdCBhYm92ZVxuYGBgXG5gYGAifQ== -->
-<p><code>r</code>r table &lt;- xtabs(count ~ group + outcome) # make I group, J outcome contingency table chisq.test(table,correct=F) #do test above</p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFibGUgPC0geHRhYnMoY291bnQgfiBncm91cCArIG91dGNvbWUpICMgbWFrZSBJIGdyb3VwLCBKIG91dGNvbWUgY29udGluZ2VuY3kgdGFibGVcbmNoaXNxLnRlc3QodGFibGUsY29ycmVjdD1GKSAjZG8gdGVzdCBhYm92ZVxuYGBgIn0= -->
+<pre class="r"><code>table &lt;- xtabs(count ~ group + outcome) # make I group, J outcome contingency table
+chisq.test(table,correct=F) #do test above</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -296,20 +309,23 @@ exp(\beta_j-\beta_{j'})
 <p>We can also perform this test with the multinom and ordinal models too. For the ordinal case though, a specific structure is assumed to the dependence, so you may get more power.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBtdXRsaW5vbVxubW9kZWwgPC0gbXVsdGlub20ob3V0Y29tZWNsYXNzIH4gZmFjdG9yKGdyb3VwKSxkYXRhKVxuQW5vdmEobW9kZWwpICMgZ2l2ZXMgc2FtZSBhYm92ZSB0ZXN0IG9mIGluZHksIExSIHN0eWxlXG4jIGlmIE9ScyAoZXhwKGNvZWZmaWNpZW50cykpIGFyZSBzdXBlciBsYXJnZSBvciBzbWFsbCBkdWUgdG8gJG5fe2krfW5fe2orfS9uJCBzbWFsbFxuIyAgIGNhbiBhZGQgLjUgdG8gMCBjZWxsc1xuXG4jIG9yZGluYWwgcG9sclxubW9kZWwgPC0gcG9scihvdXRjb21lY2xhc3MgfiBmYWN0b3IoZ3JvdXApLGRhdGEsbWV0aG9kPSdsb2dpc3RpYycpXG5Bbm92YShtb2RlbCkgIyBnaXZlcyB0ZXN0IG9mIGluZHlcblxuYGBgXG5gYGAifQ== -->
-<p><code>r</code>r # mutlinom model &lt;- multinom(outcomeclass ~ factor(group),data) Anova(model) # gives same above test of indy, LR style # if ORs (exp(coefficients)) are super large or small due to <span class="math inline">\(n_{i+}n_{j+}/n\)</span> small # can add .5 to 0 cells</p>
-</div>
-</div>
-</div>
-<div id="ordinal-polr" class="section level1">
-<h1><span class="header-section-number">4</span> ordinal polr</h1>
-<p>model &lt;- polr(outcomeclass ~ factor(group),data,method=‘logistic’) Anova(model) # gives test of indy</p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBtdXRsaW5vbVxubW9kZWwgPC0gbXVsdGlub20ob3V0Y29tZWNsYXNzIH4gZmFjdG9yKGdyb3VwKSxkYXRhKVxuQW5vdmEobW9kZWwpICMgZ2l2ZXMgc2FtZSBhYm92ZSB0ZXN0IG9mIGluZHksIExSIHN0eWxlXG4jIGlmIE9ScyAoZXhwKGNvZWZmaWNpZW50cykpIGFyZSBzdXBlciBsYXJnZSBvciBzbWFsbCBkdWUgdG8gJG5fe2krfW5fe2orfS9uJCBzbWFsbFxuIyAgIGNhbiBhZGQgLjUgdG8gMCBjZWxsc1xuXG4jIG9yZGluYWwgcG9sclxubW9kZWwgPC0gcG9scihvdXRjb21lY2xhc3MgfiBmYWN0b3IoZ3JvdXApLGRhdGEsbWV0aG9kPSdsb2dpc3RpYycpXG5Bbm92YShtb2RlbCkgIyBnaXZlcyB0ZXN0IG9mIGluZHlcblxuYGBgIn0= -->
+<pre class="r"><code># mutlinom
+model &lt;- multinom(outcomeclass ~ factor(group),data)
+Anova(model) # gives same above test of indy, LR style
+# if ORs (exp(coefficients)) are super large or small due to $n_{i+}n_{j+}/n$ small
+#   can add .5 to 0 cells
+
+# ordinal polr
+model &lt;- polr(outcomeclass ~ factor(group),data,method='logistic')
+Anova(model) # gives test of indy
+</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
 <div id="logistic-regression-1" class="section level3">
-<h3><span class="header-section-number">4.0.1</span> Logistic Regression</h3>
+<h3>Logistic Regression</h3>
 <p>All catgeories beyond the first go off of a base category.</p>
 <p><span class="math display">\[
 \pi_{j,j\neq 1}=\frac{exp(z_j)}{\sum_jexp(z_j)}
@@ -317,38 +333,50 @@ exp(\beta_j-\beta_{j'})
 <p>Fit models with</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxubGlicmFyeShubmV0KVxubW9kZWwgPC0gbXVsdGlub20oZm9ybXVsYSxkYXRhKVxuYGBgXG5gYGAifQ== -->
-<p><code>r</code>r library(nnet) model &lt;- multinom(formula,data)</p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShubmV0KVxubW9kZWwgPC0gbXVsdGlub20oZm9ybXVsYSxkYXRhKVxuYGBgIn0= -->
+<pre class="r"><code>library(nnet)
+model &lt;- multinom(formula,data)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
 <div id="wald-2" class="section level3">
-<h3><span class="header-section-number">4.0.2</span> Wald</h3>
+<h3>Wald</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShtb2RlbCkgIyBnaXZlcyBjb2VmZmljaWVudCBzdGFuZGFyZCBlcnJvcnNcbmNvbmZpbnQobW9kZWwsbGV2ZWw9MS1hbHBoYSkgIyBhbHNvIGdpdmVzIGNvZWZmaWNpZW50IHN0YW5kYXJkIGVycm9yc1xuXG4jIG1lc3N5IGRlbHRhTWV0aG9kIGNhbiBoZWxwIHdpdGggQ0kgb2YgZnVuY3Rpb24gb2YgYmV0YXNcbiMgaWYgeW91IHdhbnQgYSBDSSBvZiB0aGV0YSAoYSBmdW5jdGlvbiBvZiBiZXRhcykgZWdcbnBpLjIgPC0gXCJleHAoYjIwICsgYjIxeDEpIC8gKDEgKyBleHAoYjIwICsgYjIxeDEpICsgZXhwKGIzMCArIGIzMXgxKSlcIiAjIGV3d3d3d1xuY2FsYy4yIDwtIGRlbHRhTWV0aG9kKG1vZGVsLCBnPXBpLjIsIHBhcmFtZXRlck5hbWVzPWMoXCJiMjBcIixcImIyMVwiLFwiYjMwXCIsXCJiMzFcIikpXG5jYWxjLjIkRXN0aW1hdGVcbmNhbGMuMiRTRSAjIHVzZSB0aGlzIGZvciB3YWxkIENJIGNhbGMuMiRFc3RpbWF0ZSArLy0gMS45NiBjYWxjLjIkU0VcbmBgYCJ9 -->
+<pre class="r"><code>summary(model) # gives coefficient standard errors
+confint(model,level=1-alpha) # also gives coefficient standard errors
+
+# messy deltaMethod can help with CI of function of betas
+# if you want a CI of theta (a function of betas) eg
+pi.2 &lt;- &quot;exp(b20 + b21x1) / (1 + exp(b20 + b21x1) + exp(b30 + b31x1))&quot; # ewwwww
+calc.2 &lt;- deltaMethod(model, g=pi.2, parameterNames=c(&quot;b20&quot;,&quot;b21&quot;,&quot;b30&quot;,&quot;b31&quot;))
+calc.2$Estimate
+calc.2$SE # use this for wald CI calc.2$Estimate +/- 1.96 calc.2$SE</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Note that pi CIs are not joint confidence regions so can sum to more than 1.</p>
 </div>
 <div id="lr-1" class="section level3">
-<h3><span class="header-section-number">4.0.3</span> LR</h3>
+<h3>LR</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuQW5vdmEoKSAjIGxlYXZlIG9uZSBvdXRcbiMgbm8gZ29vZCBsaW5lYXIgY29tYm8gQ0lcbmBgYFxuYGBgIn0= -->
-<p><code>r</code>r Anova() # leave one out # no good linear combo CI</p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQW5vdmEoKSAjIGxlYXZlIG9uZSBvdXRcbiMgbm8gZ29vZCBsaW5lYXIgY29tYm8gQ0lcbmBgYCJ9 -->
+<pre class="r"><code>Anova() # leave one out
+# no good linear combo CI</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
 <div id="ors" class="section level3">
-<h3><span class="header-section-number">4.0.4</span> ORs</h3>
+<h3>ORs</h3>
 <p>Interpret coefs as shifts in <span class="math inline">\(OR_j=\frac{odds_{j \ vs \ base,at \ x_r=a+c}}{odds_{j \ vs \ base,at \ x_r=a}}\)</span>. So the odds are category vs base category not success vs failure like before.</p>
 </div>
+</div>
 <div id="ordinal-case" class="section level2">
-<h2><span class="header-section-number">4.1</span> Ordinal case</h2>
+<h2>Ordinal case</h2>
 <p>Now we are comparing a given category and below to all categories above. <span class="math display">\[log(\frac{P(Y\leq j)}{P(Y&gt;j)})=z_j=\beta_{j0} + \beta_1x_1 + \beta_2x_2 + \cdots\]</span> The only parameter that changes for different levels is <span class="math inline">\(\beta_j0\)</span>, the intercept.</p>
 <p>Similar to the binary case we can see <span class="math display">\[
 P(Y\leq j) = \frac{exp(z_j)}{1+exp(z_j)}
@@ -359,37 +387,56 @@ P(Y\leq j) = \frac{exp(z_j)}{1+exp(z_j)}
 <p>To fit models:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBmaXJzdCBtYWtlIHN1cmUgdGhhdCBsZXZlbHMgYXJlIGFwcHJvcHJpYXRlbHkgb3JkZXJlZFxub3V0Y29tZS5mYWN0b3IgPC0gZmFjdG9yKG91dGNvbWVzLCBsZXZlbHM9YyhcImxvd2VzdFwiLFwibWlkZGxlXCIsXCJoaWdoZXN0XCIpKVxubGlicmFyeShNQVNTKVxubW9kZWwgPC0gcG9scihmb3JtdWxhLCBkYXRhLCBtZXRob2Q9J2xvZ2lzdGljJylcbmBgYCJ9 -->
+<pre class="r"><code># first make sure that levels are appropriately ordered
+outcome.factor &lt;- factor(outcomes, levels=c(&quot;lowest&quot;,&quot;middle&quot;,&quot;highest&quot;))
+library(MASS)
+model &lt;- polr(formula, data, method='logistic')</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Very stupidly you <em>need to multiply all the coefficients by -1</em> to get them to be interpretable the way you think.</p>
 <div id="wald-3" class="section level3">
-<h3><span class="header-section-number">4.1.1</span> Wald</h3>
+<h3>Wald</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShtb2RlbCkgIyBnaXZlcyBXYWxkIHN0YXRzIG9uIHNpbmdsZSBjb2VmZmljZW50c1xuIyBwaWhhdCBhbmQgb3RoZXIgbGluZWFyIGNvbWJvIENJcyBhcmUgU1VQRVIgTUVTU1khXG4jICAgdXNlIGF1dGhvcnMgcGcgMTc1IGRlbHRhTWV0aG9kLnBvbHIyIGZ1bmN0aW9uXG5waS4yIDwtIFwiZXhwKGIyMCArIGIxKngxKS8oMSArIGV4cChiMjAgKyBiMSp4MSkpIC0gZXhwKGIxMCArIGIxKngxKSAvICgxK2V4cChiMTAgKyBiMSp4MSkpXCIgIyBld3d3d3dcbmNhbGMucGkuMiA8LSBkZWx0YU1ldGhvZC5wb2xyMihtb2RlbCwgZz1waS4yKVxuY2FsYy5waS4yJEVzdGltYXRlICMgcGloYXRcbmNhbGMucGkuMiRTRSAjIHVzZSBpbiBwaWhhdCArLy0gMS45NipjYWxjLnBpLjIkU0UgZm9yIENJXG5gYGAifQ== -->
+<pre class="r"><code>summary(model) # gives Wald stats on single coefficents
+# pihat and other linear combo CIs are SUPER MESSY!
+#   use authors pg 175 deltaMethod.polr2 function
+pi.2 &lt;- &quot;exp(b20 + b1*x1)/(1 + exp(b20 + b1*x1)) - exp(b10 + b1*x1) / (1+exp(b10 + b1*x1))&quot; # ewwwww
+calc.pi.2 &lt;- deltaMethod.polr2(model, g=pi.2)
+calc.pi.2$Estimate # pihat
+calc.pi.2$SE # use in pihat +/- 1.96*calc.pi.2$SE for CI</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Note that pi CIs are not joint confidence regions so can sum to more than 1.</p>
 </div>
 <div id="lr-2" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> LR</h3>
+<h3>LR</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuQW5vdmEobW9kZWwpICMgbGVhdmUgb25lIG91dCBMUiB0ZXN0XG4tMSpjb25maW50KG1vZGVsLGxldmVsPTEtYWxwaGEpICMgY29lZmZpY2llbnQgQ0k6IE5PVEUgVEhFIC0xKlxuYGBgXG5gYGAifQ== -->
-<p><code>r</code>r Anova(model) # leave one out LR test -1<em>confint(model,level=1-alpha) # coefficient CI: NOTE THE -1</em></p>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuQW5vdmEobW9kZWwpICMgbGVhdmUgb25lIG91dCBMUiB0ZXN0XG4tMSpjb25maW50KG1vZGVsLGxldmVsPTEtYWxwaGEpICMgY29lZmZpY2llbnQgQ0k6IE5PVEUgVEhFIC0xKlxuYGBgIn0= -->
+<pre class="r"><code>Anova(model) # leave one out LR test
+-1*confint(model,level=1-alpha) # coefficient CI: NOTE THE -1*</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
 <div id="predictions" class="section level3">
-<h3><span class="header-section-number">4.1.3</span> Predictions</h3>
+<h3>Predictions</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJlZGljdChtb2RlbCx0eXBlPVwiY2xhc3NcIikgIyBwcmVkaWN0IHdoaWNoIG91dGNvbWVcbnByZWRpY3QobW9kZWwsdHlwZT1cInByb2JzXCIpICMgcHJlZGljdCBlYWNoIG91dGNvbWUncyBwcm9iXG5gYGAifQ== -->
+<pre class="r"><code>predict(model,type=&quot;class&quot;) # predict which outcome
+predict(model,type=&quot;probs&quot;) # predict each outcome's prob</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
 <div id="odds-ratios-1" class="section level3">
-<h3><span class="header-section-number">4.1.4</span> Odds Ratios</h3>
+<h3>Odds Ratios</h3>
 <p>Very similar to binary case, but now odds are P(given level or below) / P(above given level):</p>
 <p>The odds of <span class="math inline">\(Y\leq j\)</span> vs <span class="math inline">\(Y&gt;j\)</span> change by <span class="math inline">\(exp(c\beta_1)\)</span> times for a <span class="math inline">\(c\)</span> unit increase in <span class="math inline">\(x_1\)</span> while holding other variables constant (simple case). For interactions / higher order just plug in numerator and denom <span class="math inline">\(\frac{exp(z_j|_{x_r=a+c})}{exp(z_j|_{x_r=a})}\)</span>. Note that it doesnt matter which level <span class="math inline">\(j\)</span> is used because the constant always cancels!</p>
 <p><em>Remember that that coefficients from <code>polr</code> need to be multiplied by -1.</em></p>
@@ -398,7 +445,7 @@ P(Y\leq j) = \frac{exp(z_j)}{1+exp(z_j)}
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiMjcxIE92ZXJ2aWV3IgpvdXRwdXQ6IAogIGh0bWxfbm90ZWJvb2s6IAogICAgbnVtYmVyX3NlY3Rpb25zOiB5ZXMKLS0tCgoKCiMgV2FsZAojIyBHZW5lcmFsIENhc2UKRm9yIGFueSBlc3RpbWF0ZWQgY29uZmlkZW5jZSBpbnRlcnZhbCwgeW91IGNhbiB1c2UKJCQKV2FsZENJID0gXGhhdHtcdGhldGF9IFxwbSBaX3sxLVxhbHBoYS8yfVYoXGhhdHtcdGhldGF9KV57MS8yfQokJApGb3IgZXhhbXBsZSwgZm9yIGVzdGltYXRpbmcgJFxwaSQgZnJvbSBhIGJpbm9taWFsKG4sJHBpJCkgc2FtcGxlIHdpdGhvdXQgY292YXJpYXRlcyB5b3UgbWlnaHQgdXNlLgoKJCQKXGhhdHtccGl9ID0gXGZyYWN7c3VjY2Vzc2VzfXt0b3RhbH0gXFwKV2FsZENJID0gXGhhdHtccGl9IFxwbSBaX3sxLVxmcmFje1xhbHBoYX17Mn19IFxzcXJ0e1xmcmFje1xoYXR7XHBpfSgxLVxoYXR7XHBpfSl9e259fSAKJCQKQnV0IHRoaXMgaXMgcHJldHR5IHNoaXR0eSBmb3Igc21hbGwgJG4kLiBTbyB3ZSB0ZW5kIHRvIHVzZSB3aWxzb24gZm9yIHRoZSBjYXNlIGFib3ZlIChubyBjb3ZhcmlhdGVzIGFuZCBzaW5nbGUgMi1vdXRjb21lIHZhcikgYW5kIExSIHByb2ZpbGUgQ0kgb3RoZXJ3aXNlLgoKIyMgV2lsc29uIGlzIGJldHRlciBmb3IgdGVzdGluZyBhIHNpbmdsZSAkcGkkCgokJApcdGlsZGV7XHBpfSA9IFxmcmFje3cgKyBcZnJhY3sxfXsyfVpeMl97MS1cZnJhY3tcYWxwaGF9ezJ9fX17biArIFpeMl97MS1cZnJhY3tcYWxwaGF9ezJ9fX0gXFwKV2lsc29uQ0kgPSBcdGlsZGV7XHBpfSBccG0gXGZyYWN7Wl97MS1cZnJhY3tcYWxwaGF9ezJ9fSBuXnsxLzJ9fXtuICsgWl4yX3sxLVxmcmFje1xhbHBoYX17Mn19fSBcc3FydHtcaGF0e1xwaX0oMS1caGF0e1xwaX0pICsgXGZyYWN7Wl4yX3sxLVxmcmFje1xhbHBoYX17Mn19fXs0bn19CiQkCiMjIEFkanVzdGVkIEFncmVzdGktQ2FmZm8gYmV0dGVyIGZvciBkaWZmZXJlbmNlIG9mICRwaSQgYWNjcm9zcyBncm91cHMgJGkkCgokJApcdGlsZGV7XHBpX2l9ID0gXGZyYWN7c3VjY2Vzc2VzX2krMX17dG90YWxfaSsyfSBcXApBQyBcIERpZmZDSSA9IFx0aWxkZXtccGlfMX0gLSBcdGlsZGV7XHBpXzJ9IFxwbSAgWl97MS1cZnJhY3tcYWxwaGF9ezJ9fSBcc3FydHtcZnJhY3tcdGlsZGV7XHBpXzF9KDEtXHRpbGRle1xwaV8xfSl9e3RvdGFsXzErMn0rXGZyYWN7XHRpbGRle1xwaV8yfSgxLVx0aWxkZXtccGlfMn0pfXt0b3RhbF8yKzJ9fQoKJCQKCgojIEdlbmVyYWwgQ2FzZSBMaWtlbGlob29kIFJhdGlvIChMUikKVGhlIExSIGlzIGRlZmluZWQgYXMKJCQKXExhbWJkYSA9IFxmcmFje01heCBcIExpa2VsaWhvb2QgXCBVbmRlciBcIEhfMH17TWF4IFwgTGlrZWxpaG9vZCBcIFVuZGVyIFwgSF9hIFwgb3IgXCBIXzB9CiQkCgpGb3IgYSBsYXJnZSBlbm91Z2ggc2FtcGxlIChkb2Vzbid0IG5lZWQgdG8gYmUgcXVpdGUgYXMgbGFyZ2UgYXMgZm9yIFdhbGQpCgokJAotMmxvZyhcTGFtYmRhKSBcc2ltIFxjaGleMl9kCiQkCgpXaGVyZSAkZCQgaXMgaG93IG1hbnkgcGFyYW1ldGVycyBhcmUgc2V0ID0gdG8gYSBjb25zdGFudCBpbiAkSF8wJAoKIyBMb2dpc3RpYyBSZWdyZXNzaW9uCgojIyBCaW5hcnkgQ2FzZQpXaGVuIGdldHRpbmcgY29uZmlkZW5jZSBsZXZlbHMsIGp1c3QgZmluZCB0aGUgY29uZmlkZW5jZSBpbnRlcnZhbCBmb3IgdGhlIGxpbmVhciBjb21iaW5hdGlvbiBvZiAkXGJldGEkcywgdGhlbiBwbHVnIGJhY2sgaW50byB0aGUgZm9ybXVsYSB0byBmaW5kIHRoZSBwYXJhbWV0ZXIgeW91IGFyZSB0cnlpbmcgdG8gZmluZCBhIHJhbmdlIGZvci4KClRvIGZpdCBtb2RlbHM6CmBgYHtyfQpnbG0oZm9ybXVsYSwgZGF0YSwgZmFtaWx5PWJpbm9taWFsKGxpbms9J2xvZ2l0JykpCmBgYAoKCiMjIyBXYWxkCiRcaGF0e1YoXGhhdHtcYmV0YX0pfSA9IChYJ1ZYKV57LTF9JApXaGVyZSAkWCQgaXMgdGhlIGRlc2lnbiBtYXRyaXggYW5kICRWPURpYWcoXGhhdHtccGlfaX0oMS1caGF0e1xwaV9pfSkpJAoKVmFyaWFuY2VzIGFuZCBjb3ZhcmlhbmNlcyBmcm9tIHRoaXMgbWF0cml4IGNhbiBiZSBwdWxsZWQgdG8gZXN0aW1hdGUgdGhlIHN0YW5kYXJkIGVycm9yIG9mIHRoZSBsaW5lYXIgY29tYm8gb2YgJFxiZXRhJCBmb3IgV2FsZCBpbnRlcnZhbHMuIAoKIyMjIyBSCmBgYHtyfQojIFdhbGQgcC12YWx1ZXMgb2YgZWFjaCBcYmV0YT0wIGdpdmVuIGJ5CnN1bW1hcnkobW9kZWwpCmNvbmZpbnQuZGVmYXVsdChtb2RlbCkgIyBiZXRhIGNvbmZpZGVuY2UgaW50ZXJ2YWxzIC0+IHNpbXBsZSBPUiBpbnRlcnZhbHMKbGluZWFyLmNvbWJvIDwtIHByZWRpY3QobW9kZWwsIGRhdGEsIHR5cGU9J2xpbmsnLCBzZT1UKQpsaW5lYXIuY29tYm8kZml0ICMgaXMgY29tYm8gaGF0CmxpbmVhci5jb21ibyRzZS5maXQgIyB1c2VkIGZvciB3YWxkIGludGVydmFsIGFyb3VuZCBjb21ibyBoYXQKCgpgYGAKCiMjIyBMUgpgYGB7cn0KIyBUZXN0aW5nCmFub3ZhKEgwbW9kZWwsSGFtb2RlbCx0ZXN0PSdMUicpCkFub3ZhKEhhbW9kZWwpICMgbGVhdmUgb25lIG91dCBtZXRob2RvbG9neQpjb25maW50KG1vZGVsKSAjIGJldGEgY29uZmlkZW5jZSBpbnRlcnZhbHMgLT4gc2ltcGxlIE9SIGludGVydmFscwojIEludGVydmFscyBvbiBjb21ib3MKSyA8LSBtYXRyaXgoZGF0YT1jKDEsYmV0YTF2YWwsYmV0YTJ2YWwsLi4uLGJldGFqdmFsKSxucm93PTEpICMgcHV0IGhvdyBtYW55IG9mIGVhY2ggY29lZmZpY2llbnQgaW4gY29tYm8gaW4gZWFjaCBtYXRyaXggcm93CmxpbmVhci5jb21ibyA8LSBtY3Byb2ZpbGUobW9kZWwsIENNPUspCmNvbmZpbnQobGluZWFyLmNvbWJvLCBsZXZlbCA9IDEtYWxwaGEpCmBgYAoKIyMjIE9kZHMtUmF0aW9zCkNhbiBleHByZXNzIGFzIGEgZnVuY3Rpb24gb2YgdGhlIGNvZWZmaWNpZW50cyBmb3Igc2ltcGxlIGNhc2VzIG9yIGZ1bmN0aW9uIG9mIHRoZSBjb2VmZmljaWVudHMgYW5kIGNlcnRhaW4gdmFyaWFibGVzIGZvciBtb3JlIGNvbXBsZXggY2FzZXMuIAoKSWYgbm8gaGlnaGVyIG9yZGVyIHRlcm1zIG9yIGludGVyYWN0aW9ucy4gSWYgeF9yK2MkCiQkCk9SPVxmcmFje29kZHNfe3cgXCB4X3I9YStjfX17b2Rkc197dyBcIHhfcj1hfX09ZXhwKGNcYmV0YV9yKQokJAoKT3RoZXJ3aXNlLCB5b3UgaGF2ZSB0byBwbHVnIGluIHRvIGZpbmQgdGhlIHJlc3VsdHMuCgpGb3IgZXhhbXBsZSwgJHI9MSQKJCQKeiA9IFxiZXRhXzAgKyBcYmV0YV8xeF8xICsgXGJldGFfMnhfMiArIFxiZXRhXzN4XzF4XzIgXFwKT1IgPSBleHAoYyhcYmV0YV8xICsgXGJldGFfM3hfMikpfF97eF8yPWFfMn0KJCQKJCQKeiA9IFxiZXRhXzAgKyBcYmV0YV8xeF8xICsgXGJldGFfMnhfMV4yIFxcCk9SID0gZXhwKGMoXGJldGFfMSArIGNcYmV0YV8yKDJhK2MpKQokJAoKCkZvciBjYXRlZ29yeSBmbGFncyB0aGUgT1IgZnJvbSBjYXRnb3J5ICRqJyQgdG8gJGokCiQkCmV4cChcYmV0YV9qLVxiZXRhX3tqJ30pCiQkCldoZXJlICRcYmV0YV97aid9PSQgaWYgJGonJCBpcyB0aGUgYmFzZSBjYXRlZ29yeS4KClRoZSBiZXN0IGFkdmljZSBmb3IgdGhlIE9SIGlzIGp1c3QgdG8gcGx1ZyBpbiB0aGUgbGluZWFyIGNvbWJvICR6JCBldmFsdWF0ZWQgYXQgdGhlIGRpZmZlcmVudCBwb2ludHMgYW5kIHRoZW4gY2FuY2VsIHRvIGZpbmQgdGhlIGxpbmVhciBjb21ibyBpbnNpZGUgJGV4cCgpJCBhbmQgdGhlbiBmaW5kIENJIGZvciB0aGUgbGluZWFyIGNvbWJvLgoKIyMjICRccGkkCgpGaW5kIHRoZSBsaW5lYXIgY29tYm8gJHokLCBnZXQgaXRzIENJLCBhbmQgdGhlbiAkXGZyYWN7ZXhwKHouQ0kpfXsoMStleHAoei5DSSkpfSQKCllvdSBjYW4gYWxzbyB1c2UKYGBge3J9CnByZWRpY3QobW9kZWwsIG5ld2RhdGEsIHR5cGU9InByb2JzIikKYGBgCgoKIyMgTXVsdGlub21pYWwgQ2FzZQoKIyMjIEluZGVwZW5kZW5jZSB0ZXN0IGluICRJXHRpbWVzSiQgY29udGlnZW5jeSB0YWJsZQpUZXN0IHRoYXQgJFxwaV97aWp9XG5lcSBccGlfaV4rXHBpX2peKyQgZm9yIGF0IGxlYXN0IG9uZSAkaSxqJC4KCiQkClxzdW1fe2ksan1cZnJhY3sobl97aWp9LW5fe2krfW5fe2orfS9uKV4yfXtuX3tpK31uX3tqK30vbn0gXHNpbSBcY2hpXjJfeyhJLTEpKEotMSl9CiQkCihPYnNlcnZlZC1FeHBlY3RlZCleMi9FeHBlY3RlZCBpcyBkaXN0cmlidXRlZCBhcyBDaGkgc3F1YXJlZC4KCmBgYHtyfQp0YWJsZSA8LSB4dGFicyhjb3VudCB+IGdyb3VwICsgb3V0Y29tZSkgIyBtYWtlIEkgZ3JvdXAsIEogb3V0Y29tZSBjb250aW5nZW5jeSB0YWJsZQpjaGlzcS50ZXN0KHRhYmxlLGNvcnJlY3Q9RikgI2RvIHRlc3QgYWJvdmUKYGBgCgpXYW50ICRuX3tpK31uX3tqK30vbj41JCBmb3IgYWxsIGNlbGxzIGlkZWFsbHkuIEF0IGxlYXN0IHdhbnQgJG5fe2krfW5fe2orfS9uPjEkLiAKCldlIGNhbiBhbHNvIHBlcmZvcm0gdGhpcyB0ZXN0IHdpdGggdGhlIG11bHRpbm9tIGFuZCBvcmRpbmFsIG1vZGVscyB0b28uIEZvciB0aGUgb3JkaW5hbCBjYXNlIHRob3VnaCwgYSBzcGVjaWZpYyBzdHJ1Y3R1cmUgaXMgYXNzdW1lZCB0byB0aGUgZGVwZW5kZW5jZSwgc28geW91IG1heSBnZXQgbW9yZSBwb3dlci4KYGBge3J9CiMgbXV0bGlub20KbW9kZWwgPC0gbXVsdGlub20ob3V0Y29tZWNsYXNzIH4gZmFjdG9yKGdyb3VwKSxkYXRhKQpBbm92YShtb2RlbCkgIyBnaXZlcyBzYW1lIGFib3ZlIHRlc3Qgb2YgaW5keSwgTFIgc3R5bGUKIyBpZiBPUnMgKGV4cChjb2VmZmljaWVudHMpKSBhcmUgc3VwZXIgbGFyZ2Ugb3Igc21hbGwgZHVlIHRvICRuX3tpK31uX3tqK30vbiQgc21hbGwKIyAgIGNhbiBhZGQgLjUgdG8gMCBjZWxscwoKIyBvcmRpbmFsIHBvbHIKbW9kZWwgPC0gcG9scihvdXRjb21lY2xhc3MgfiBmYWN0b3IoZ3JvdXApLGRhdGEsbWV0aG9kPSdsb2dpc3RpYycpCkFub3ZhKG1vZGVsKSAjIGdpdmVzIHRlc3Qgb2YgaW5keQoKYGBgCgoKCgojIyMgTG9naXN0aWMgUmVncmVzc2lvbgpBbGwgY2F0Z2VvcmllcyBiZXlvbmQgdGhlIGZpcnN0IGdvIG9mZiBvZiBhIGJhc2UgY2F0ZWdvcnkuCgokJApccGlfe2osalxuZXEgMX09XGZyYWN7ZXhwKHpfail9e1xzdW1famV4cCh6X2opfQokJApXaGVyZSAkel8xPTAkLgoKCkZpdCBtb2RlbHMgd2l0aApgYGB7cn0KbGlicmFyeShubmV0KQptb2RlbCA8LSBtdWx0aW5vbShmb3JtdWxhLGRhdGEpCmBgYAoKIyMjIFdhbGQKYGBge3J9CnN1bW1hcnkobW9kZWwpICMgZ2l2ZXMgY29lZmZpY2llbnQgc3RhbmRhcmQgZXJyb3JzCmNvbmZpbnQobW9kZWwsbGV2ZWw9MS1hbHBoYSkgIyBhbHNvIGdpdmVzIGNvZWZmaWNpZW50IHN0YW5kYXJkIGVycm9ycwoKIyBtZXNzeSBkZWx0YU1ldGhvZCBjYW4gaGVscCB3aXRoIENJIG9mIGZ1bmN0aW9uIG9mIGJldGFzCiMgaWYgeW91IHdhbnQgYSBDSSBvZiB0aGV0YSAoYSBmdW5jdGlvbiBvZiBiZXRhcykgZWcKcGkuMiA8LSAiZXhwKGIyMCArIGIyMXgxKSAvICgxICsgZXhwKGIyMCArIGIyMXgxKSArIGV4cChiMzAgKyBiMzF4MSkpIiAjIGV3d3d3dwpjYWxjLjIgPC0gZGVsdGFNZXRob2QobW9kZWwsIGc9cGkuMiwgcGFyYW1ldGVyTmFtZXM9YygiYjIwIiwiYjIxIiwiYjMwIiwiYjMxIikpCmNhbGMuMiRFc3RpbWF0ZQpjYWxjLjIkU0UgIyB1c2UgdGhpcyBmb3Igd2FsZCBDSSBjYWxjLjIkRXN0aW1hdGUgKy8tIDEuOTYgY2FsYy4yJFNFCmBgYApOb3RlIHRoYXQgcGkgQ0lzIGFyZSBub3Qgam9pbnQgY29uZmlkZW5jZSByZWdpb25zIHNvIGNhbiBzdW0gdG8gbW9yZSB0aGFuIDEuCgoKIyMjIExSCmBgYHtyfQpBbm92YSgpICMgbGVhdmUgb25lIG91dAojIG5vIGdvb2QgbGluZWFyIGNvbWJvIENJCmBgYAoKCiMjIyBPUnMKSW50ZXJwcmV0IGNvZWZzIGFzIHNoaWZ0cyBpbiAkT1Jfaj1cZnJhY3tvZGRzX3tqIFwgdnMgXCBiYXNlLGF0IFwgeF9yPWErY319e29kZHNfe2ogXCB2cyBcIGJhc2UsYXQgXCB4X3I9YX19JC4gU28gdGhlIG9kZHMgYXJlIGNhdGVnb3J5IHZzIGJhc2UgY2F0ZWdvcnkgbm90IHN1Y2Nlc3MgdnMgZmFpbHVyZSBsaWtlIGJlZm9yZS4gCgojIyBPcmRpbmFsIGNhc2UKTm93IHdlIGFyZSBjb21wYXJpbmcgYSBnaXZlbiBjYXRlZ29yeSBhbmQgYmVsb3cgdG8gYWxsIGNhdGVnb3JpZXMgYWJvdmUuCiQkbG9nKFxmcmFje1AoWVxsZXEgail9e1AoWT5qKX0pPXpfaj1cYmV0YV97ajB9ICsgXGJldGFfMXhfMSArIFxiZXRhXzJ4XzIgKyBcY2RvdHMkJApUaGUgb25seSBwYXJhbWV0ZXIgdGhhdCBjaGFuZ2VzIGZvciBkaWZmZXJlbnQgbGV2ZWxzIGlzICRcYmV0YV9qMCQsIHRoZSBpbnRlcmNlcHQuCgpTaW1pbGFyIHRvIHRoZSBiaW5hcnkgY2FzZSB3ZSBjYW4gc2VlCiQkClAoWVxsZXEgaikgPSBcZnJhY3tleHAoel9qKX17MStleHAoel9qKX0KJCQKQnV0IG5vdyBmb3IgZGlmZmVyZW50IGxldmVscyB3ZSBoYXZlIHRvIHN1YnRyYWN0IHRoaXMgcXVhbnRpdHkgZXZhbHV0ZWQgYXQgZGlmZmVyZW50ICRqJCB0byBnZXQgdGhlIHByb2JhYmlsaXR5IG9mIGEgc3BlY2lmaWMgb3V0Y29tZSBsZXZlbDoKCiQkClxwaV9qPVxmcmFje2V4cCh6X2opfXsxK2V4cCh6X2opfS1cZnJhY3tleHAoel97ai0xfSl9ezErZXhwKHpfe2otMX0pfQokJApOb3RlIHRoYXQgJHpfMD0tXGluZnR5JCBhbmQgJHpfSj1caW5mdHkkIGluIHRoZSBhYm92ZSBzbyB0aGF0IHRoZSBib3VuZGFyeSBjdW11bGF0aXZlIHByb2JhYmlsaXRpZXMgaGF2ZSAwIHByb2JhYmlsaXR5IGFuZCBwcm9iYWJpbGl0eSAxLgoKVG8gZml0IG1vZGVsczoKYGBge3J9CiMgZmlyc3QgbWFrZSBzdXJlIHRoYXQgbGV2ZWxzIGFyZSBhcHByb3ByaWF0ZWx5IG9yZGVyZWQKb3V0Y29tZS5mYWN0b3IgPC0gZmFjdG9yKG91dGNvbWVzLCBsZXZlbHM9YygibG93ZXN0IiwibWlkZGxlIiwiaGlnaGVzdCIpKQpsaWJyYXJ5KE1BU1MpCm1vZGVsIDwtIHBvbHIoZm9ybXVsYSwgZGF0YSwgbWV0aG9kPSdsb2dpc3RpYycpCmBgYAoKVmVyeSBzdHVwaWRseSB5b3UgKm5lZWQgdG8gbXVsdGlwbHkgYWxsIHRoZSBjb2VmZmljaWVudHMgYnkgLTEqIHRvIGdldCB0aGVtIHRvIGJlIGludGVycHJldGFibGUgdGhlIHdheSB5b3UgdGhpbmsuCgojIyMgV2FsZApgYGB7cn0Kc3VtbWFyeShtb2RlbCkgIyBnaXZlcyBXYWxkIHN0YXRzIG9uIHNpbmdsZSBjb2VmZmljZW50cwojIHBpaGF0IGFuZCBvdGhlciBsaW5lYXIgY29tYm8gQ0lzIGFyZSBTVVBFUiBNRVNTWSEKIyAgIHVzZSBhdXRob3JzIHBnIDE3NSBkZWx0YU1ldGhvZC5wb2xyMiBmdW5jdGlvbgpwaS4yIDwtICJleHAoYjIwICsgYjEqeDEpLygxICsgZXhwKGIyMCArIGIxKngxKSkgLSBleHAoYjEwICsgYjEqeDEpIC8gKDErZXhwKGIxMCArIGIxKngxKSkiICMgZXd3d3d3CmNhbGMucGkuMiA8LSBkZWx0YU1ldGhvZC5wb2xyMihtb2RlbCwgZz1waS4yKQpjYWxjLnBpLjIkRXN0aW1hdGUgIyBwaWhhdApjYWxjLnBpLjIkU0UgIyB1c2UgaW4gcGloYXQgKy8tIDEuOTYqY2FsYy5waS4yJFNFIGZvciBDSQpgYGAKTm90ZSB0aGF0IHBpIENJcyBhcmUgbm90IGpvaW50IGNvbmZpZGVuY2UgcmVnaW9ucyBzbyBjYW4gc3VtIHRvIG1vcmUgdGhhbiAxLgoKIyMjIExSCmBgYHtyfQpBbm92YShtb2RlbCkgIyBsZWF2ZSBvbmUgb3V0IExSIHRlc3QKLTEqY29uZmludChtb2RlbCxsZXZlbD0xLWFscGhhKSAjIGNvZWZmaWNpZW50IENJOiBOT1RFIFRIRSAtMSoKYGBgCgojIyMgUHJlZGljdGlvbnMKYGBge3J9CnByZWRpY3QobW9kZWwsdHlwZT0iY2xhc3MiKSAjIHByZWRpY3Qgd2hpY2ggb3V0Y29tZQpwcmVkaWN0KG1vZGVsLHR5cGU9InByb2JzIikgIyBwcmVkaWN0IGVhY2ggb3V0Y29tZSdzIHByb2IKYGBgCgojIyMgT2RkcyBSYXRpb3MKVmVyeSBzaW1pbGFyIHRvIGJpbmFyeSBjYXNlLCBidXQgbm93IG9kZHMgYXJlIFAoZ2l2ZW4gbGV2ZWwgb3IgYmVsb3cpIC8gUChhYm92ZSBnaXZlbiBsZXZlbCk6CgpUaGUgb2RkcyBvZiAkWVxsZXEgaiQgdnMgJFk+aiQgY2hhbmdlIGJ5ICRleHAoY1xiZXRhXzEpJCB0aW1lcyBmb3IgYSAkYyQgdW5pdCBpbmNyZWFzZSBpbiAkeF8xJCB3aGlsZSBob2xkaW5nIG90aGVyIHZhcmlhYmxlcyBjb25zdGFudCAoc2ltcGxlIGNhc2UpLiBGb3IgaW50ZXJhY3Rpb25zIC8gaGlnaGVyIG9yZGVyIGp1c3QgcGx1ZyBpbiBudW1lcmF0b3IgYW5kIGRlbm9tICRcZnJhY3tleHAoel9qfF97eF9yPWErY30pfXtleHAoel9qfF97eF9yPWF9KX0kLiBOb3RlIHRoYXQgaXQgZG9lc250IG1hdHRlciB3aGljaCBsZXZlbCAkaiQgaXMgdXNlZCBiZWNhdXNlIHRoZSBjb25zdGFudCBhbHdheXMgY2FuY2VscyEKCipSZW1lbWJlciB0aGF0IHRoYXQgY29lZmZpY2llbnRzIGZyb20gYHBvbHJgIG5lZWQgdG8gYmUgbXVsdGlwbGllZCBieSAtMS4qCgoKCgoKCgoKCgoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiMjcxIE92ZXJ2aWV3IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgoKCiMgV2FsZAojIyBHZW5lcmFsIENhc2UKRm9yIGFueSBlc3RpbWF0ZWQgY29uZmlkZW5jZSBpbnRlcnZhbCwgeW91IGNhbiB1c2UKJCQKV2FsZENJID0gXGhhdHtcdGhldGF9IFxwbSBaX3sxLVxhbHBoYS8yfVYoXGhhdHtcdGhldGF9KV57MS8yfQokJApGb3IgZXhhbXBsZSwgZm9yIGVzdGltYXRpbmcgJFxwaSQgZnJvbSBhIGJpbm9taWFsKG4sJHBpJCkgc2FtcGxlIHdpdGhvdXQgY292YXJpYXRlcyB5b3UgbWlnaHQgdXNlLgoKJCQKXGhhdHtccGl9ID0gXGZyYWN7c3VjY2Vzc2VzfXt0b3RhbH0gXFwKV2FsZENJID0gXGhhdHtccGl9IFxwbSBaX3sxLVxmcmFje1xhbHBoYX17Mn19IFxzcXJ0e1xmcmFje1xoYXR7XHBpfSgxLVxoYXR7XHBpfSl9e259fSAKJCQKQnV0IHRoaXMgaXMgcHJldHR5IHNoaXR0eSBmb3Igc21hbGwgJG4kLiBTbyB3ZSB0ZW5kIHRvIHVzZSB3aWxzb24gZm9yIHRoZSBjYXNlIGFib3ZlIChubyBjb3ZhcmlhdGVzIGFuZCBzaW5nbGUgMi1vdXRjb21lIHZhcikgYW5kIExSIHByb2ZpbGUgQ0kgb3RoZXJ3aXNlLgoKIyMgV2lsc29uIGlzIGJldHRlciBmb3IgdGVzdGluZyBhIHNpbmdsZSAkcGkkCgokJApcdGlsZGV7XHBpfSA9IFxmcmFje3cgKyBcZnJhY3sxfXsyfVpeMl97MS1cZnJhY3tcYWxwaGF9ezJ9fX17biArIFpeMl97MS1cZnJhY3tcYWxwaGF9ezJ9fX0gXFwKV2lsc29uQ0kgPSBcdGlsZGV7XHBpfSBccG0gXGZyYWN7Wl97MS1cZnJhY3tcYWxwaGF9ezJ9fSBuXnsxLzJ9fXtuICsgWl4yX3sxLVxmcmFje1xhbHBoYX17Mn19fSBcc3FydHtcaGF0e1xwaX0oMS1caGF0e1xwaX0pICsgXGZyYWN7Wl4yX3sxLVxmcmFje1xhbHBoYX17Mn19fXs0bn19CiQkCiMjIEFkanVzdGVkIEFncmVzdGktQ2FmZm8gYmV0dGVyIGZvciBkaWZmZXJlbmNlIG9mICRwaSQgYWNjcm9zcyBncm91cHMgJGkkCgokJApcdGlsZGV7XHBpX2l9ID0gXGZyYWN7c3VjY2Vzc2VzX2krMX17dG90YWxfaSsyfSBcXApBQyBcIERpZmZDSSA9IFx0aWxkZXtccGlfMX0gLSBcdGlsZGV7XHBpXzJ9IFxwbSAgWl97MS1cZnJhY3tcYWxwaGF9ezJ9fSBcc3FydHtcZnJhY3tcdGlsZGV7XHBpXzF9KDEtXHRpbGRle1xwaV8xfSl9e3RvdGFsXzErMn0rXGZyYWN7XHRpbGRle1xwaV8yfSgxLVx0aWxkZXtccGlfMn0pfXt0b3RhbF8yKzJ9fQoKJCQKCgojIEdlbmVyYWwgQ2FzZSBMaWtlbGlob29kIFJhdGlvIChMUikKVGhlIExSIGlzIGRlZmluZWQgYXMKJCQKXExhbWJkYSA9IFxmcmFje01heCBcIExpa2VsaWhvb2QgXCBVbmRlciBcIEhfMH17TWF4IFwgTGlrZWxpaG9vZCBcIFVuZGVyIFwgSF9hIFwgb3IgXCBIXzB9CiQkCgpGb3IgYSBsYXJnZSBlbm91Z2ggc2FtcGxlIChkb2Vzbid0IG5lZWQgdG8gYmUgcXVpdGUgYXMgbGFyZ2UgYXMgZm9yIFdhbGQpCgokJAotMmxvZyhcTGFtYmRhKSBcc2ltIFxjaGleMl9kCiQkCgpXaGVyZSAkZCQgaXMgaG93IG1hbnkgcGFyYW1ldGVycyBhcmUgc2V0ID0gdG8gYSBjb25zdGFudCBpbiAkSF8wJAoKIyBMb2dpc3RpYyBSZWdyZXNzaW9uCgojIyBCaW5hcnkgQ2FzZQpXaGVuIGdldHRpbmcgY29uZmlkZW5jZSBsZXZlbHMsIGp1c3QgZmluZCB0aGUgY29uZmlkZW5jZSBpbnRlcnZhbCBmb3IgdGhlIGxpbmVhciBjb21iaW5hdGlvbiBvZiAkXGJldGEkcywgdGhlbiBwbHVnIGJhY2sgaW50byB0aGUgZm9ybXVsYSB0byBmaW5kIHRoZSBwYXJhbWV0ZXIgeW91IGFyZSB0cnlpbmcgdG8gZmluZCBhIHJhbmdlIGZvci4KClRvIGZpdCBtb2RlbHM6CmBgYHtyfQpnbG0oZm9ybXVsYSwgZGF0YSwgZmFtaWx5PWJpbm9taWFsKGxpbms9J2xvZ2l0JykpCmBgYAoKCiMjIyBXYWxkCiRcaGF0e1YoXGhhdHtcYmV0YX0pfSA9IChYJ1ZYKV57LTF9JApXaGVyZSAkWCQgaXMgdGhlIGRlc2lnbiBtYXRyaXggYW5kICRWPURpYWcoXGhhdHtccGlfaX0oMS1caGF0e1xwaV9pfSkpJAoKVmFyaWFuY2VzIGFuZCBjb3ZhcmlhbmNlcyBmcm9tIHRoaXMgbWF0cml4IGNhbiBiZSBwdWxsZWQgdG8gZXN0aW1hdGUgdGhlIHN0YW5kYXJkIGVycm9yIG9mIHRoZSBsaW5lYXIgY29tYm8gb2YgJFxiZXRhJCBmb3IgV2FsZCBpbnRlcnZhbHMuIAoKIyMjIyBSCmBgYHtyfQojIFdhbGQgcC12YWx1ZXMgb2YgZWFjaCBcYmV0YT0wIGdpdmVuIGJ5CnN1bW1hcnkobW9kZWwpCmNvbmZpbnQuZGVmYXVsdChtb2RlbCkgIyBiZXRhIGNvbmZpZGVuY2UgaW50ZXJ2YWxzIC0+IHNpbXBsZSBPUiBpbnRlcnZhbHMKbGluZWFyLmNvbWJvIDwtIHByZWRpY3QobW9kZWwsIGRhdGEsIHR5cGU9J2xpbmsnLCBzZT1UKQpsaW5lYXIuY29tYm8kZml0ICMgaXMgY29tYm8gaGF0CmxpbmVhci5jb21ibyRzZS5maXQgIyB1c2VkIGZvciB3YWxkIGludGVydmFsIGFyb3VuZCBjb21ibyBoYXQKCgpgYGAKCiMjIyBMUgpgYGB7cn0KIyBUZXN0aW5nCmFub3ZhKEgwbW9kZWwsSGFtb2RlbCx0ZXN0PSdMUicpCkFub3ZhKEhhbW9kZWwpICMgbGVhdmUgb25lIG91dCBtZXRob2RvbG9neQpjb25maW50KG1vZGVsKSAjIGJldGEgY29uZmlkZW5jZSBpbnRlcnZhbHMgLT4gc2ltcGxlIE9SIGludGVydmFscwojIEludGVydmFscyBvbiBjb21ib3MKSyA8LSBtYXRyaXgoZGF0YT1jKDEsYmV0YTF2YWwsYmV0YTJ2YWwsLi4uLGJldGFqdmFsKSxucm93PTEpICMgcHV0IGhvdyBtYW55IG9mIGVhY2ggY29lZmZpY2llbnQgaW4gY29tYm8gaW4gZWFjaCBtYXRyaXggcm93CmxpbmVhci5jb21ibyA8LSBtY3Byb2ZpbGUobW9kZWwsIENNPUspCmNvbmZpbnQobGluZWFyLmNvbWJvLCBsZXZlbCA9IDEtYWxwaGEpCmBgYAoKIyMjIE9kZHMtUmF0aW9zCkNhbiBleHByZXNzIGFzIGEgZnVuY3Rpb24gb2YgdGhlIGNvZWZmaWNpZW50cyBmb3Igc2ltcGxlIGNhc2VzIG9yIGZ1bmN0aW9uIG9mIHRoZSBjb2VmZmljaWVudHMgYW5kIGNlcnRhaW4gdmFyaWFibGVzIGZvciBtb3JlIGNvbXBsZXggY2FzZXMuIAoKSWYgbm8gaGlnaGVyIG9yZGVyIHRlcm1zIG9yIGludGVyYWN0aW9ucy4gSWYgeF9yK2MkCiQkCk9SPVxmcmFje29kZHNfe3cgXCB4X3I9YStjfX17b2Rkc197dyBcIHhfcj1hfX09ZXhwKGNcYmV0YV9yKQokJAoKT3RoZXJ3aXNlLCB5b3UgaGF2ZSB0byBwbHVnIGluIHRvIGZpbmQgdGhlIHJlc3VsdHMuCgpGb3IgZXhhbXBsZSwgJHI9MSQKJCQKeiA9IFxiZXRhXzAgKyBcYmV0YV8xeF8xICsgXGJldGFfMnhfMiArIFxiZXRhXzN4XzF4XzIgXFwKT1IgPSBleHAoYyhcYmV0YV8xICsgXGJldGFfM3hfMikpfF97eF8yPWFfMn0KJCQKJCQKeiA9IFxiZXRhXzAgKyBcYmV0YV8xeF8xICsgXGJldGFfMnhfMV4yIFxcCk9SID0gZXhwKGMoXGJldGFfMSArIGNcYmV0YV8yKDJhK2MpKQokJAoKCkZvciBjYXRlZ29yeSBmbGFncyB0aGUgT1IgZnJvbSBjYXRnb3J5ICRqJyQgdG8gJGokCiQkCmV4cChcYmV0YV9qLVxiZXRhX3tqJ30pCiQkCldoZXJlICRcYmV0YV97aid9PSQgaWYgJGonJCBpcyB0aGUgYmFzZSBjYXRlZ29yeS4KClRoZSBiZXN0IGFkdmljZSBmb3IgdGhlIE9SIGlzIGp1c3QgdG8gcGx1ZyBpbiB0aGUgbGluZWFyIGNvbWJvICR6JCBldmFsdWF0ZWQgYXQgdGhlIGRpZmZlcmVudCBwb2ludHMgYW5kIHRoZW4gY2FuY2VsIHRvIGZpbmQgdGhlIGxpbmVhciBjb21ibyBpbnNpZGUgJGV4cCgpJCBhbmQgdGhlbiBmaW5kIENJIGZvciB0aGUgbGluZWFyIGNvbWJvLgoKIyMjICRccGkkCgpGaW5kIHRoZSBsaW5lYXIgY29tYm8gJHokLCBnZXQgaXRzIENJLCBhbmQgdGhlbiAkXGZyYWN7ZXhwKHouQ0kpfXsoMStleHAoei5DSSkpfSQKCllvdSBjYW4gYWxzbyB1c2UKYGBge3J9CnByZWRpY3QobW9kZWwsIG5ld2RhdGEsIHR5cGU9InByb2JzIikKYGBgCgoKIyMgTXVsdGlub21pYWwgQ2FzZQoKIyMjIEluZGVwZW5kZW5jZSB0ZXN0IGluICRJXHRpbWVzSiQgY29udGlnZW5jeSB0YWJsZQpUZXN0IHRoYXQgJFxwaV97aWp9XG5lcSBccGlfaV4rXHBpX2peKyQgZm9yIGF0IGxlYXN0IG9uZSAkaSxqJC4KCiQkClxzdW1fe2ksan1cZnJhY3sobl97aWp9LW5fe2krfW5fe2orfS9uKV4yfXtuX3tpK31uX3tqK30vbn0gXHNpbSBcY2hpXjJfeyhJLTEpKEotMSl9CiQkCihPYnNlcnZlZC1FeHBlY3RlZCleMi9FeHBlY3RlZCBpcyBkaXN0cmlidXRlZCBhcyBDaGkgc3F1YXJlZC4KCmBgYHtyfQp0YWJsZSA8LSB4dGFicyhjb3VudCB+IGdyb3VwICsgb3V0Y29tZSkgIyBtYWtlIEkgZ3JvdXAsIEogb3V0Y29tZSBjb250aW5nZW5jeSB0YWJsZQpjaGlzcS50ZXN0KHRhYmxlLGNvcnJlY3Q9RikgI2RvIHRlc3QgYWJvdmUKYGBgCgpXYW50ICRuX3tpK31uX3tqK30vbj41JCBmb3IgYWxsIGNlbGxzIGlkZWFsbHkuIEF0IGxlYXN0IHdhbnQgJG5fe2krfW5fe2orfS9uPjEkLiAKCldlIGNhbiBhbHNvIHBlcmZvcm0gdGhpcyB0ZXN0IHdpdGggdGhlIG11bHRpbm9tIGFuZCBvcmRpbmFsIG1vZGVscyB0b28uIEZvciB0aGUgb3JkaW5hbCBjYXNlIHRob3VnaCwgYSBzcGVjaWZpYyBzdHJ1Y3R1cmUgaXMgYXNzdW1lZCB0byB0aGUgZGVwZW5kZW5jZSwgc28geW91IG1heSBnZXQgbW9yZSBwb3dlci4KYGBge3J9CiMgbXV0bGlub20KbW9kZWwgPC0gbXVsdGlub20ob3V0Y29tZWNsYXNzIH4gZmFjdG9yKGdyb3VwKSxkYXRhKQpBbm92YShtb2RlbCkgIyBnaXZlcyBzYW1lIGFib3ZlIHRlc3Qgb2YgaW5keSwgTFIgc3R5bGUKIyBpZiBPUnMgKGV4cChjb2VmZmljaWVudHMpKSBhcmUgc3VwZXIgbGFyZ2Ugb3Igc21hbGwgZHVlIHRvICRuX3tpK31uX3tqK30vbiQgc21hbGwKIyAgIGNhbiBhZGQgLjUgdG8gMCBjZWxscwoKIyBvcmRpbmFsIHBvbHIKbW9kZWwgPC0gcG9scihvdXRjb21lY2xhc3MgfiBmYWN0b3IoZ3JvdXApLGRhdGEsbWV0aG9kPSdsb2dpc3RpYycpCkFub3ZhKG1vZGVsKSAjIGdpdmVzIHRlc3Qgb2YgaW5keQoKYGBgCgoKCgojIyMgTG9naXN0aWMgUmVncmVzc2lvbgpBbGwgY2F0Z2VvcmllcyBiZXlvbmQgdGhlIGZpcnN0IGdvIG9mZiBvZiBhIGJhc2UgY2F0ZWdvcnkuCgokJApccGlfe2osalxuZXEgMX09XGZyYWN7ZXhwKHpfail9e1xzdW1famV4cCh6X2opfQokJApXaGVyZSAkel8xPTAkLgoKCkZpdCBtb2RlbHMgd2l0aApgYGB7cn0KbGlicmFyeShubmV0KQptb2RlbCA8LSBtdWx0aW5vbShmb3JtdWxhLGRhdGEpCmBgYAoKIyMjIFdhbGQKYGBge3J9CnN1bW1hcnkobW9kZWwpICMgZ2l2ZXMgY29lZmZpY2llbnQgc3RhbmRhcmQgZXJyb3JzCmNvbmZpbnQobW9kZWwsbGV2ZWw9MS1hbHBoYSkgIyBhbHNvIGdpdmVzIGNvZWZmaWNpZW50IHN0YW5kYXJkIGVycm9ycwoKIyBtZXNzeSBkZWx0YU1ldGhvZCBjYW4gaGVscCB3aXRoIENJIG9mIGZ1bmN0aW9uIG9mIGJldGFzCiMgaWYgeW91IHdhbnQgYSBDSSBvZiB0aGV0YSAoYSBmdW5jdGlvbiBvZiBiZXRhcykgZWcKcGkuMiA8LSAiZXhwKGIyMCArIGIyMXgxKSAvICgxICsgZXhwKGIyMCArIGIyMXgxKSArIGV4cChiMzAgKyBiMzF4MSkpIiAjIGV3d3d3dwpjYWxjLjIgPC0gZGVsdGFNZXRob2QobW9kZWwsIGc9cGkuMiwgcGFyYW1ldGVyTmFtZXM9YygiYjIwIiwiYjIxIiwiYjMwIiwiYjMxIikpCmNhbGMuMiRFc3RpbWF0ZQpjYWxjLjIkU0UgIyB1c2UgdGhpcyBmb3Igd2FsZCBDSSBjYWxjLjIkRXN0aW1hdGUgKy8tIDEuOTYgY2FsYy4yJFNFCmBgYApOb3RlIHRoYXQgcGkgQ0lzIGFyZSBub3Qgam9pbnQgY29uZmlkZW5jZSByZWdpb25zIHNvIGNhbiBzdW0gdG8gbW9yZSB0aGFuIDEuCgoKIyMjIExSCmBgYHtyfQpBbm92YSgpICMgbGVhdmUgb25lIG91dAojIG5vIGdvb2QgbGluZWFyIGNvbWJvIENJCmBgYAoKCiMjIyBPUnMKSW50ZXJwcmV0IGNvZWZzIGFzIHNoaWZ0cyBpbiAkT1Jfaj1cZnJhY3tvZGRzX3tqIFwgdnMgXCBiYXNlLGF0IFwgeF9yPWErY319e29kZHNfe2ogXCB2cyBcIGJhc2UsYXQgXCB4X3I9YX19JC4gU28gdGhlIG9kZHMgYXJlIGNhdGVnb3J5IHZzIGJhc2UgY2F0ZWdvcnkgbm90IHN1Y2Nlc3MgdnMgZmFpbHVyZSBsaWtlIGJlZm9yZS4gCgojIyBPcmRpbmFsIGNhc2UKTm93IHdlIGFyZSBjb21wYXJpbmcgYSBnaXZlbiBjYXRlZ29yeSBhbmQgYmVsb3cgdG8gYWxsIGNhdGVnb3JpZXMgYWJvdmUuCiQkbG9nKFxmcmFje1AoWVxsZXEgail9e1AoWT5qKX0pPXpfaj1cYmV0YV97ajB9ICsgXGJldGFfMXhfMSArIFxiZXRhXzJ4XzIgKyBcY2RvdHMkJApUaGUgb25seSBwYXJhbWV0ZXIgdGhhdCBjaGFuZ2VzIGZvciBkaWZmZXJlbnQgbGV2ZWxzIGlzICRcYmV0YV9qMCQsIHRoZSBpbnRlcmNlcHQuCgpTaW1pbGFyIHRvIHRoZSBiaW5hcnkgY2FzZSB3ZSBjYW4gc2VlCiQkClAoWVxsZXEgaikgPSBcZnJhY3tleHAoel9qKX17MStleHAoel9qKX0KJCQKQnV0IG5vdyBmb3IgZGlmZmVyZW50IGxldmVscyB3ZSBoYXZlIHRvIHN1YnRyYWN0IHRoaXMgcXVhbnRpdHkgZXZhbHV0ZWQgYXQgZGlmZmVyZW50ICRqJCB0byBnZXQgdGhlIHByb2JhYmlsaXR5IG9mIGEgc3BlY2lmaWMgb3V0Y29tZSBsZXZlbDoKCiQkClxwaV9qPVxmcmFje2V4cCh6X2opfXsxK2V4cCh6X2opfS1cZnJhY3tleHAoel97ai0xfSl9ezErZXhwKHpfe2otMX0pfQokJApOb3RlIHRoYXQgJHpfMD0tXGluZnR5JCBhbmQgJHpfSj1caW5mdHkkIGluIHRoZSBhYm92ZSBzbyB0aGF0IHRoZSBib3VuZGFyeSBjdW11bGF0aXZlIHByb2JhYmlsaXRpZXMgaGF2ZSAwIHByb2JhYmlsaXR5IGFuZCBwcm9iYWJpbGl0eSAxLgoKVG8gZml0IG1vZGVsczoKYGBge3J9CiMgZmlyc3QgbWFrZSBzdXJlIHRoYXQgbGV2ZWxzIGFyZSBhcHByb3ByaWF0ZWx5IG9yZGVyZWQKb3V0Y29tZS5mYWN0b3IgPC0gZmFjdG9yKG91dGNvbWVzLCBsZXZlbHM9YygibG93ZXN0IiwibWlkZGxlIiwiaGlnaGVzdCIpKQpsaWJyYXJ5KE1BU1MpCm1vZGVsIDwtIHBvbHIoZm9ybXVsYSwgZGF0YSwgbWV0aG9kPSdsb2dpc3RpYycpCmBgYAoKVmVyeSBzdHVwaWRseSB5b3UgKm5lZWQgdG8gbXVsdGlwbHkgYWxsIHRoZSBjb2VmZmljaWVudHMgYnkgLTEqIHRvIGdldCB0aGVtIHRvIGJlIGludGVycHJldGFibGUgdGhlIHdheSB5b3UgdGhpbmsuCgojIyMgV2FsZApgYGB7cn0Kc3VtbWFyeShtb2RlbCkgIyBnaXZlcyBXYWxkIHN0YXRzIG9uIHNpbmdsZSBjb2VmZmljZW50cwojIHBpaGF0IGFuZCBvdGhlciBsaW5lYXIgY29tYm8gQ0lzIGFyZSBTVVBFUiBNRVNTWSEKIyAgIHVzZSBhdXRob3JzIHBnIDE3NSBkZWx0YU1ldGhvZC5wb2xyMiBmdW5jdGlvbgpwaS4yIDwtICJleHAoYjIwICsgYjEqeDEpLygxICsgZXhwKGIyMCArIGIxKngxKSkgLSBleHAoYjEwICsgYjEqeDEpIC8gKDErZXhwKGIxMCArIGIxKngxKSkiICMgZXd3d3d3CmNhbGMucGkuMiA8LSBkZWx0YU1ldGhvZC5wb2xyMihtb2RlbCwgZz1waS4yKQpjYWxjLnBpLjIkRXN0aW1hdGUgIyBwaWhhdApjYWxjLnBpLjIkU0UgIyB1c2UgaW4gcGloYXQgKy8tIDEuOTYqY2FsYy5waS4yJFNFIGZvciBDSQpgYGAKTm90ZSB0aGF0IHBpIENJcyBhcmUgbm90IGpvaW50IGNvbmZpZGVuY2UgcmVnaW9ucyBzbyBjYW4gc3VtIHRvIG1vcmUgdGhhbiAxLgoKIyMjIExSCmBgYHtyfQpBbm92YShtb2RlbCkgIyBsZWF2ZSBvbmUgb3V0IExSIHRlc3QKLTEqY29uZmludChtb2RlbCxsZXZlbD0xLWFscGhhKSAjIGNvZWZmaWNpZW50IENJOiBOT1RFIFRIRSAtMSoKYGBgCgojIyMgUHJlZGljdGlvbnMKYGBge3J9CnByZWRpY3QobW9kZWwsdHlwZT0iY2xhc3MiKSAjIHByZWRpY3Qgd2hpY2ggb3V0Y29tZQpwcmVkaWN0KG1vZGVsLHR5cGU9InByb2JzIikgIyBwcmVkaWN0IGVhY2ggb3V0Y29tZSdzIHByb2IKYGBgCgojIyMgT2RkcyBSYXRpb3MKVmVyeSBzaW1pbGFyIHRvIGJpbmFyeSBjYXNlLCBidXQgbm93IG9kZHMgYXJlIFAoZ2l2ZW4gbGV2ZWwgb3IgYmVsb3cpIC8gUChhYm92ZSBnaXZlbiBsZXZlbCk6CgpUaGUgb2RkcyBvZiAkWVxsZXEgaiQgdnMgJFk+aiQgY2hhbmdlIGJ5ICRleHAoY1xiZXRhXzEpJCB0aW1lcyBmb3IgYSAkYyQgdW5pdCBpbmNyZWFzZSBpbiAkeF8xJCB3aGlsZSBob2xkaW5nIG90aGVyIHZhcmlhYmxlcyBjb25zdGFudCAoc2ltcGxlIGNhc2UpLiBGb3IgaW50ZXJhY3Rpb25zIC8gaGlnaGVyIG9yZGVyIGp1c3QgcGx1ZyBpbiBudW1lcmF0b3IgYW5kIGRlbm9tICRcZnJhY3tleHAoel9qfF97eF9yPWErY30pfXtleHAoel9qfF97eF9yPWF9KX0kLiBOb3RlIHRoYXQgaXQgZG9lc250IG1hdHRlciB3aGljaCBsZXZlbCAkaiQgaXMgdXNlZCBiZWNhdXNlIHRoZSBjb25zdGFudCBhbHdheXMgY2FuY2VscyEKCipSZW1lbWJlciB0aGF0IHRoYXQgY29lZmZpY2llbnRzIGZyb20gYHBvbHJgIG5lZWQgdG8gYmUgbXVsdGlwbGllZCBieSAtMS4qCgoKCgoKCgoKCgoKCg==</div>
 
 
 

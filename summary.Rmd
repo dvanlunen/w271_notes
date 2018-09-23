@@ -1,8 +1,6 @@
 ---
 title: "271 Overview"
-output: 
-  html_notebook: 
-    number_sections: yes
+output: html_notebook
 ---
 
 
