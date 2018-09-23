@@ -1,0 +1,272 @@
+---
+title: "271 Overview"
+output: html_notebook
+---
+
+
+
+# Wald
+## General Case
+For any estimated confidence interval, you can use
+$$
+WaldCI = \hat{\theta} \pm Z_{1-\alpha/2}V(\hat{\theta})^{1/2}
+$$
+For example, for estimating $\pi$ from a binomial(n,$pi$) sample without covariates you might use.
+
+$$
+\hat{\pi} = \frac{successes}{total} \\
+WaldCI = \hat{\pi} \pm Z_{1-\frac{\alpha}{2}} \sqrt{\frac{\hat{\pi}(1-\hat{\pi})}{n}} 
+$$
+But this is pretty shitty for small $n$. So we tend to use wilson for the case above (no covariates and single 2-outcome var) and LR profile CI otherwise.
+
+## Wilson is better for testing a single $pi$
+
+$$
+\tilde{\pi} = \frac{w + \frac{1}{2}Z^2_{1-\frac{\alpha}{2}}}{n + Z^2_{1-\frac{\alpha}{2}}} \\
+WilsonCI = \tilde{\pi} \pm \frac{Z_{1-\frac{\alpha}{2}} n^{1/2}}{n + Z^2_{1-\frac{\alpha}{2}}} \sqrt{\hat{\pi}(1-\hat{\pi}) + \frac{Z^2_{1-\frac{\alpha}{2}}}{4n}}
+$$
+## Adjusted Agresti-Caffo better for difference of $pi$ accross groups $i$
+
+$$
+\tilde{\pi_i} = \frac{successes_i+1}{total_i+2} \\
+AC \ DiffCI = \tilde{\pi_1} - \tilde{\pi_2} \pm  Z_{1-\frac{\alpha}{2}} \sqrt{\frac{\tilde{\pi_1}(1-\tilde{\pi_1})}{total_1+2}+\frac{\tilde{\pi_2}(1-\tilde{\pi_2})}{total_2+2}}
+
+$$
+
+
+# General Case Likelihood Ratio (LR)
+The LR is defined as
+$$
+\Lambda = \frac{Max \ Likelihood \ Under \ H_0}{Max \ Likelihood \ Under \ H_a \ or \ H_0}
+$$
+
+For a large enough sample (doesn't need to be quite as large as for Wald)
+
+$$
+-2log(\Lambda) \sim \chi^2_d
+$$
+
+Where $d$ is how many parameters are set = to a constant in $H_0$
+
+# Logistic Regression
+
+## Binary Case
+When getting confidence levels, just find the confidence interval for the linear combination of $\beta$s, then plug back into the formula to find the parameter you are trying to find a range for.
+
+To fit models:
+```{r}
+glm(formula, data, family=binomial(link='logit'))
+```
+
+
+### Wald
+$\hat{V(\hat{\beta})} = (X'VX)^{-1}$
+Where $X$ is the design matrix and $V=Diag(\hat{\pi_i}(1-\hat{\pi_i}))$
+
+Variances and covariances from this matrix can be pulled to estimate the standard error of the linear combo of $\beta$ for Wald intervals. 
+
+#### R
+```{r}
+# Wald p-values of each \beta=0 given by
+summary(model)
+confint.default(model) # beta confidence intervals -> simple OR intervals
+linear.combo <- predict(model, data, type='link', se=T)
+linear.combo$fit # is combo hat
+linear.combo$se.fit # used for wald interval around combo hat
+
+
+```
+
+### LR
+```{r}
+# Testing
+anova(H0model,Hamodel,test='LR')
+Anova(Hamodel) # leave one out methodology
+confint(model) # beta confidence intervals -> simple OR intervals
+# Intervals on combos
+K <- matrix(data=c(1,beta1val,beta2val,...,betajval),nrow=1) # put how many of each coefficient in combo in each matrix row
+linear.combo <- mcprofile(model, CM=K)
+confint(linear.combo, level = 1-alpha)
+```
+
+### Odds-Ratios
+Can express as a function of the coefficients for simple cases or function of the coefficients and certain variables for more complex cases. 
+
+If no higher order terms or interactions. If x_r+c$
+$$
+OR=\frac{odds_{w \ x_r=a+c}}{odds_{w \ x_r=a}}=exp(c\beta_r)
+$$
+
+Otherwise, you have to plug in to find the results.
+
+For example, $r=1$
+$$
+z = \beta_0 + \beta_1x_1 + \beta_2x_2 + \beta_3x_1x_2 \\
+OR = exp(c(\beta_1 + \beta_3x_2))|_{x_2=a_2}
+$$
+$$
+z = \beta_0 + \beta_1x_1 + \beta_2x_1^2 \\
+OR = exp(c(\beta_1 + c\beta_2(2a+c))
+$$
+
+
+For category flags the OR from catgory $j'$ to $j$
+$$
+exp(\beta_j-\beta_{j'})
+$$
+Where $\beta_{j'}=$ if $j'$ is the base category.
+
+The best advice for the OR is just to plug in the linear combo $z$ evaluated at the different points and then cancel to find the linear combo inside $exp()$ and then find CI for the linear combo.
+
+### $\pi$
+
+Find the linear combo $z$, get its CI, and then $\frac{exp(z.CI)}{(1+exp(z.CI))}$
+
+You can also use
+```{r}
+predict(model, newdata, type="probs")
+```
+
+
+## Multinomial Case
+
+### Independence test in $I\timesJ$ contigency table
+Test that $\pi_{ij}\neq \pi_i^+\pi_j^+$ for at least one $i,j$.
+
+$$
+\sum_{i,j}\frac{(n_{ij}-n_{i+}n_{j+}/n)^2}{n_{i+}n_{j+}/n} \sim \chi^2_{(I-1)(J-1)}
+$$
+(Observed-Expected)^2/Expected is distributed as Chi squared.
+
+```{r}
+table <- xtabs(count ~ group + outcome) # make I group, J outcome contingency table
+chisq.test(table,correct=F) #do test above
+```
+
+Want $n_{i+}n_{j+}/n>5$ for all cells ideally. At least want $n_{i+}n_{j+}/n>1$. 
+
+We can also perform this test with the multinom and ordinal models too. For the ordinal case though, a specific structure is assumed to the dependence, so you may get more power.
+```{r}
+# mutlinom
+model <- multinom(outcomeclass ~ factor(group),data)
+Anova(model) # gives same above test of indy, LR style
+# if ORs (exp(coefficients)) are super large or small due to $n_{i+}n_{j+}/n$ small
+#   can add .5 to 0 cells
+
+# ordinal polr
+model <- polr(outcomeclass ~ factor(group),data,method='logistic')
+Anova(model) # gives test of indy
+
+```
+
+
+
+
+### Logistic Regression
+All catgeories beyond the first go off of a base category.
+
+$$
+\pi_{j,j\neq 1}=\frac{exp(z_j)}{\sum_jexp(z_j)}
+$$
+Where $z_1=0$.
+
+
+Fit models with
+```{r}
+library(nnet)
+model <- multinom(formula,data)
+```
+
+### Wald
+```{r}
+summary(model) # gives coefficient standard errors
+confint(model,level=1-alpha) # also gives coefficient standard errors
+
+# messy deltaMethod can help with CI of function of betas
+# if you want a CI of theta (a function of betas) eg
+pi.2 <- "exp(b20 + b21x1) / (1 + exp(b20 + b21x1) + exp(b30 + b31x1))" # ewwwww
+calc.2 <- deltaMethod(model, g=pi.2, parameterNames=c("b20","b21","b30","b31"))
+calc.2$Estimate
+calc.2$SE # use this for wald CI calc.2$Estimate +/- 1.96 calc.2$SE
+```
+Note that pi CIs are not joint confidence regions so can sum to more than 1.
+
+
+### LR
+```{r}
+Anova() # leave one out
+# no good linear combo CI
+```
+
+
+### ORs
+Interpret coefs as shifts in $OR_j=\frac{odds_{j \ vs \ base,at \ x_r=a+c}}{odds_{j \ vs \ base,at \ x_r=a}}$. So the odds are category vs base category not success vs failure like before. 
+
+## Ordinal case
+Now we are comparing a given category and below to all categories above.
+$$log(\frac{P(Y\leq j)}{P(Y>j)})=z_j=\beta_{j0} + \beta_1x_1 + \beta_2x_2 + \cdots$$
+The only parameter that changes for different levels is $\beta_j0$, the intercept.
+
+Similar to the binary case we can see
+$$
+P(Y\leq j) = \frac{exp(z_j)}{1+exp(z_j)}
+$$
+But now for different levels we have to subtract this quantity evaluted at different $j$ to get the probability of a specific outcome level:
+
+$$
+\pi_j=\frac{exp(z_j)}{1+exp(z_j)}-\frac{exp(z_{j-1})}{1+exp(z_{j-1})}
+$$
+Note that $z_0=-\infty$ and $z_J=\infty$ in the above so that the boundary cumulative probabilities have 0 probability and probability 1.
+
+To fit models:
+```{r}
+# first make sure that levels are appropriately ordered
+outcome.factor <- factor(outcomes, levels=c("lowest","middle","highest"))
+library(MASS)
+model <- polr(formula, data, method='logistic')
+```
+
+Very stupidly you *need to multiply all the coefficients by -1* to get them to be interpretable the way you think.
+
+### Wald
+```{r}
+summary(model) # gives Wald stats on single coefficents
+# pihat and other linear combo CIs are SUPER MESSY!
+#   use authors pg 175 deltaMethod.polr2 function
+pi.2 <- "exp(b20 + b1*x1)/(1 + exp(b20 + b1*x1)) - exp(b10 + b1*x1) / (1+exp(b10 + b1*x1))" # ewwwww
+calc.pi.2 <- deltaMethod.polr2(model, g=pi.2)
+calc.pi.2$Estimate # pihat
+calc.pi.2$SE # use in pihat +/- 1.96*calc.pi.2$SE for CI
+```
+Note that pi CIs are not joint confidence regions so can sum to more than 1.
+
+### LR
+```{r}
+Anova(model) # leave one out LR test
+-1*confint(model,level=1-alpha) # coefficient CI: NOTE THE -1*
+```
+
+### Predictions
+```{r}
+predict(model,type="class") # predict which outcome
+predict(model,type="probs") # predict each outcome's prob
+```
+
+### Odds Ratios
+Very similar to binary case, but now odds are P(given level or below) / P(above given level):
+
+The odds of $Y\leq j$ vs $Y>j$ change by $exp(c\beta_1)$ times for a $c$ unit increase in $x_1$ while holding other variables constant (simple case). For interactions / higher order just plug in numerator and denom $\frac{exp(z_j|_{x_r=a+c})}{exp(z_j|_{x_r=a})}$. Note that it doesnt matter which level $j$ is used because the constant always cancels!
+
+*Remember that that coefficients from `polr` need to be multiplied by -1.*
+
+
+
+
+
+
+
+
+
+
+
+
